@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#090909">
+<title>AHOURA WORLD</title>
+
+<style>
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:#090909;color:#fff;font-family:Tahoma,Arial,sans-serif}
+header{background:#111;text-align:center;padding:25px 12px;border-bottom:2px solid #ff1744;box-shadow:0 0 18px #ff174433}
+.logo{font-size:30px;font-weight:bold;color:#ff1744;text-shadow:0 0 15px red}
+header p{color:#aaa}
+nav{position:sticky;top:0;z-index:10;background:#151515;padding:12px;display:flex;justify-content:center;flex-wrap:wrap;gap:8px}
+nav a{color:white;text-decoration:none;background:#292929;padding:12px 15px;border-radius:9px}
+nav a:hover{background:#ff1744}
+.container{max-width:1150px;margin:auto;padding:15px}
+.hero{padding:35px 15px;text-align:center;background:linear-gradient(120deg,#35000d,#151515);border:1px solid #74132b;border-radius:15px;margin:20px 0}
+.hero h1{color:#ff1744}
+.hero p{line-height:2;color:#ddd}
+h2{color:#ff1744;border-right:4px solid #ff1744;padding-right:10px;margin-top:35px}
+input{width:100%;padding:14px;background:#181818;color:white;border:1px solid #444;border-radius:9px;font-size:15px;margin:12px 0}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 18px}
+button,.btn{border:0;background:#292929;color:white;padding:12px 15px;border-radius:8px;cursor:pointer;text-decoration:none;display:inline-block;font-size:13px;font-family:inherit}
+button:hover,.btn:hover,button.active{background:#ff1744}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:15px}
+.card{background:#171717;border:1px solid #333;border-radius:13px;overflow:hidden}
+.card:hover{border-color:#ff1744;box-shadow:0 0 12px #ff174433}
+.cover{height:125px;background:linear-gradient(135deg,#390012,#171717);display:flex;align-items:center;justify-content:center;font-size:48px}
+.content{padding:14px}
+.content h3{margin:5px 0 10px}
+.content p{color:#bbb;font-size:13px;line-height:1.9}
+.actions{display:flex;gap:7px;flex-wrap:wrap}
+.actions>*{flex:1;text-align:center;min-width:90px}
+.rating{color:#ffc107;margin:10px 0;font-size:13px}
+.notice{padding:15px;background:#1b1114;border:1px solid #632033;border-radius:10px;line-height:2;color:#ddd}
+footer{text-align:center;padding:25px;background:#111;color:#888;margin-top:35px;line-height:2}
+.modal{display:none;position:fixed;inset:0;background:#000d;z-index:30;align-items:center;justify-content:center;padding:15px}
+.modal-box{background:#181818;border:1px solid #ff1744;border-radius:13px;padding:20px;width:100%;max-width:420px}
+.modal-box h3{color:#ff1744}
+.stars{display:flex;flex-wrap:wrap;gap:3px;margin:15px 0}
+.stars button{font-size:22px;padding:5px;color:#777}
+.stars button.selected{color:#ffc107}
+.close{float:left;background:#ff1744}
+.small{color:#aaa;font-size:12px}
+@media(max-width:500px){
+ .logo{font-size:24px}
+ .container{padding:11px}
+ nav a{padding:10px}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+ <div class="logo">🔥 AHOURA WORLD</div>
+ <p>دنیای بازی‌ها، اخبار و ماینکرافت</p>
+</header>
+
+<nav>
+ <a href="#home">خانه</a>
+ <a href="#games">بازی‌ها</a>
+ <a href="#news">اخبار</a>
+ <a href="#maps">مپ‌ها</a>
+ <a href="#skins">اسکین‌ها</a>
+ <a href="#about">درباره ما</a>
+</nav>
+
+<main class="container">
+
+<section class="hero" id="home">
+ <h1>به AHOURA WORLD خوش آمدی!</h1>
+ <p>بازی‌های موردعلاقه‌ات را پیدا کن، اخبار بخوان و به بازی‌ها امتیاز بده.</p>
+ <a class="btn" href="#games">مشاهده بازی‌ها 🎮</a>
+</section>
+
+<h2 id="games">🎮 کتابخانه بازی‌ها</h2>
+<input id="search" type="search" placeholder="نام بازی را جستجو کن...">
+
+<div class="filters" id="filters">
+ <button class="active" data-cat="همه">همه</button>
+ <button data-cat="جهان باز">جهان باز</button>
+ <button data-cat="اکشن">اکشن</button>
+ <button data-cat="ورزشی">ورزشی</button>
+ <button data-cat="شبیه‌سازی">شبیه‌سازی</button>
+ <button data-cat="ماجراجویی">ماجراجویی</button>
+</div>
+
+<div class="grid" id="gamesGrid"></div>
+
+<h2 id="news">📰 اخبار گیمینگ</h2>
+<div class="grid" id="newsGrid"></div>
+
+<h2 id="maps">🗺️ مپ‌های ماینکرافت</h2>
+<div class="notice">برای مشاهده جهان‌ها و مپ‌های ماینکرافت، بازار رسمی را باز کن.</div>
+<div class="grid" id="mapsGrid"></div>
+
+<h2 id="skins">👕 اسکین‌های ماینکرافت</h2>
+<div class="notice">برای مشاهده اسکین‌ها و بسته‌های ظاهری ماینکرافت، بازار رسمی را باز کن.</div>
+<div class="grid" id="skinsGrid"></div>
+
+<h2 id="about">ℹ️ درباره سایت</h2>
+<div class="notice">
+ AHOURA WORLD یک سایت معرفی بازی، اخبار گیمینگ و محتوای ماینکرافت است.
+ امتیازها در مرورگر همین دستگاه ذخیره می‌شوند و هنوز امتیازدهی عمومی بین کاربران فعال نیست.
+</div>
+
+</main>
+
+<footer>
+ <strong>AHOURA WORLD</strong><br>
+ ساخته‌شده برای عاشقان بازی 🎮<br>
+ © 2026 AHOURA WORLD
+</footer>
+
+<div class="modal" id="modal">
+ <div class="modal-box">
+  <button class="close" id="closeModal">بستن ✕</button>
+  <h3 id="modalTitle">امتیاز به بازی</h3>
+  <p>از ۱ تا ۱۰ امتیاز بده:</p>
+  <div class="stars" id="stars"></div>
+  <p class="small" id="scoreText">امتیازی انتخاب نشده است.</p>
+  <button id="saveScore">ثبت امتیاز</button>
+ </div>
+</div>
+
+<script>
+"use strict";
+
+const MARKETPLACE = "https://www.minecraft.net/en-us/marketplace";
+
+const games = [
+ {name:"Grand Theft Auto V",cat:"جهان باز",icon:"🚗",desc:"ماجراجویی در شهر لس‌سانتوس.",url:"https://www.rockstargames.com/gta-v"},
+ {name:"Grand Theft Auto VI",cat:"جهان باز",icon:"🌴",desc:"نسخه جدید مجموعه GTA.",url:"https://www.rockstargames.com/"},
+ {name:"Minecraft",cat:"ماجراجویی",icon:"⛏️",desc:"ساخت‌وساز و اکتشاف در دنیای بلوکی.",url:"https://www.minecraft.net/"},
+ {name:"Red Dead Redemption 2",cat:"جهان باز",icon:"🤠",desc:"ماجراجویی در غرب وحشی.",url:"https://www.rockstargames.com/reddeadredemption2"},
+ {name:"Forza Horizon 5",cat:"شبیه‌سازی",icon:"🏎️",desc:"رانندگی و مسابقه در دنیایی بزرگ.",url:"https://forza.net/"},
+ {name:"EA SPORTS FC 26",cat:"ورزشی",icon:"⚽",desc:"تجربه فوتبال با تیم‌های مختلف.",url:"https://www.ea.com/games/ea-sports-fc"},
+ {name:"eFootball",cat:"ورزشی",icon:"⚽",desc:"بازی فوتبال از کونامی.",url:"https://www.konami.com/efootball/"},
+ {name:"Cyberpunk 2077",cat:"اکشن",icon:"🌃",desc:"ماجراجویی در شهری آینده‌نگر.",url:"https://www.cyberpunk.net/"},
+ {name:"The Witcher 3",cat:"ماجراجویی",icon:"🐺",desc:"ماجراجویی فانتزی در دنیایی بزرگ.",url:"https://www.thewitcher.com/"},
+ {name:"Assassin's Creed Shadows",cat:"اکشن",icon:"🥷",desc:"ماجراجویی در ژاپن تاریخی.",url:"https://www.ubisoft.com/"},
+ {name:"BeamNG.drive",cat:"شبیه‌سازی",icon:"🚙",desc:"شبیه‌ساز رانندگی و فیزیک خودرو.",url:"https://www.beamng.com/"},
+ {name:"Rocket League",cat:"ورزشی",icon:"🚀",desc:"فوتبال با ماشین‌های موشکی.",url:"https://www.rocketleague.com/"},
+ {name:"Spider-Man 2",cat:"اکشن",icon:"🕷️",desc:"ماجراجویی ابرقهرمانی.",url:"https://www.playstation.com/"},
+ {name:"God of War Ragnarök",cat:"اکشن",icon:"🪓",desc:"ماجراجویی اسطوره‌ای.",url:"https://www.playstation.com/"},
+ {name:"Hogwarts Legacy",cat:"ماجراجویی",icon:"🪄",desc:"ماجراجویی در دنیای جادوگری.",url:"https://www.hogwartslegacy.com/"},
+ {name:"Watch Dogs 2",cat:"جهان باز",icon:"💻",desc:"ماجراجویی در شهر سان‌فرانسیسکو.",url:"https://www.ubisoft.com/"},
+ {name:"The Crew Motorfest",cat:"شبیه‌سازی",icon:"🏁",desc:"مسابقات رانندگی و خودروهای متنوع.",url:"https://www.ubisoft.com/"},
+ {name:"Among Us",cat:"ماجراجویی",icon:"🚀",desc:"بازی گروهی و سرگرم‌کننده.",url:"https://www.innersloth.com/"},
+ {name:"The Sims 4",cat:"شبیه‌سازی",icon:"🏡",desc:"ساخت خانه و مدیریت زندگی.",url:"https://www.ea.com/games/the-sims"},
+ {name:"Fortnite",cat:"اکشن",icon:"🎮",desc:"بازی آنلاین با حالت‌های متنوع.",url:"https://www.fortnite.com/"},
+ {name:"Terraria",cat:"ماجراجویی",icon:"🌳",desc:"اکتشاف و ساخت‌وساز دوبعدی.",url:"https://terraria.org/"},
+ {name:"Stardew Valley",cat:"شبیه‌سازی",icon:"🌾",desc:"زندگی در مزرعه و روستا.",url:"https://www.stardewvalley.net/"},
+ {name:"Need for Speed Unbound",cat:"شبیه‌سازی",icon:"🏎️",desc:"مسابقات خیابانی و خودروها.",url:"https://www.ea.com/games/need-for-speed"},
+ {name:"Subnautica",cat:"ماجراجویی",icon:"🌊",desc:"اکتشاف دنیای زیر آب.",url:"https://unknownworlds.com/subnautica/"},
+ {name:"Sea of Thieves",cat:"ماجراجویی",icon:"🏴‍☠️",desc:"ماجراجویی دریایی.",url:"https://www.seaofthieves.com/"},
+ {name:"Farming Simulator",cat:"شبیه‌سازی",icon:"🚜",desc:"مدیریت مزرعه و ماشین‌آلات.",url:"https://www.farming-simulator.com/"},
+ {name:"Cities: Skylines",cat:"شبیه‌سازی",icon:"🏙️",desc:"ساخت و مدیریت یک شهر.",url:"https://www.paradoxinteractive.com/"},
+ {name:"Hades",cat:"اکشن",icon:"🔥",desc:"ماجراجویی اکشن در دنیای اسطوره‌ها.",url:"https://www.supergiantgames.com/"},
+ {name:"Hollow Knight",cat:"ماجراجویی",icon:"🪲",desc:"اکتشاف دنیایی اسرارآمیز.",url:"https://www.hollowknight.com/"},
+ {name:"Gran Turismo 7",cat:"شبیه‌سازی",icon:"🏎️",desc:"تجربه مسابقه و رانندگی.",url:"https://www.gran-turismo.com/"},
+ {name:"Euro Truck Simulator 2",cat:"شبیه‌سازی",icon:"🚛",desc:"رانندگی کامیون در جاده‌ها.",url:"https://eurotrucksimulator2.com/"},
+ {name:"Microsoft Flight Simulator",cat:"شبیه‌سازی",icon:"✈️",desc:"شبیه‌ساز پرواز.",url:"https://www.flightsimulator.com/"},
+ {name:"Ghost of Tsushima",cat:"اکشن",icon:"⛩️",desc:"ماجراجویی در ژاپن باستان.",url:"https://www.playstation.com/"},
+ {name:"No Man's Sky",cat:"ماجراجویی",icon:"🪐",desc:"اکتشاف سیاره‌ها و فضا.",url:"https://www.nomanssky.com/"},
+ {name:"Palworld",cat:"ماجراجویی",icon:"🐾",desc:"اکتشاف و ساخت‌وساز.",url:"https://www.pocketpair.jp/palworld"},
+ {name:"The Forest",cat:"ماجراجویی",icon:"🌲",desc:"ماجراجویی و بقا در جنگل.",url:"https://www.endnightgames.com/"},
+ {name:"Trackmania",cat:"شبیه‌سازی",icon:"🏁",desc:"مسابقات سرعتی.",url:"https://www.trackmania.com/"},
+ {name:"Cuphead",cat:"اکشن",icon:"☕",desc:"بازی اکشن با سبک کارتونی.",url:"https://www.cupheadgame.com/"},
+ {name:"Ori and the Will of the Wisps",cat:"ماجراجویی",icon:"✨",desc:"ماجراجویی در دنیایی فانتزی.",url:"https://www.orithegame.com/"},
+ {name:"Fall Guys",cat:"ماجراجویی",icon:"🫘",desc:"رقابت‌های سرگرم‌کننده.",url:"https://www.fallguys.com/"}
+];
+
+const news = [
+ {icon:"📰",name:"اخبار راک‌استار",desc:"خبرهای رسمی مجموعه GTA.",url:"https://www.rockstargames.com/newswire"},
+ {icon:"⛏️",name:"اخبار ماینکرافت",desc:"خبرها و به‌روزرسانی‌های ماینکرافت.",url:"https://www.minecraft.net/en-us/articles"},
+ {icon:"🎮",name:"اخبار ایکس‌باکس",desc:"خبرهای رسمی ایکس‌باکس.",url:"https://news.xbox.com/"},
+ {icon:"🕹️",name:"اخبار پلی‌استیشن",desc:"خبرهای رسمی پلی‌استیشن.",url:"https://blog.playstation.com/"},
+ {icon:"💻",name:"اخبار استیم",desc:"تازه‌های بازی‌های کامپیوتر.",url:"https://store.steampowered.com/news/"},
+ {icon:"🎯",name:"اخبار یوبی‌سافت",desc:"خبرهای رسمی بازی‌های یوبی‌سافت.",url:"https://news.ubisoft.com/"}
+];
+
+const maps = [
+ ["مپ پارکور","🏃","نقشه‌های چالشی پارکور."],
+ ["مپ شهر","🏙️","نقشه‌های شهری."],
+ ["مپ ماجراجویی","🗺️","جهان‌های ماجراجویی."],
+ ["مپ بقا","🌲","نقشه‌های بقا."],
+ ["مپ مینی‌گیم","🎯","نقشه‌های بازی گروهی."],
+ ["مپ قلعه","🏰","ساختمان‌ها و قلعه‌ها."]
+];
+
+const skins = [
+ ["اسکین قهرمانی","🦸","ظاهر شخصیت‌های قهرمان."],
+ ["اسکین فانتزی","🧙","ظاهرهای فانتزی."],
+ ["اسکین حیوانات","🐼","اسکین‌های حیوانات."],
+ ["اسکین ورزشی","⚽","ظاهرهای ورزشی."],
+ ["اسکین ماجراجویی","🧭","اسکین‌های ماجراجویی."],
+ ["بسته اسکین","👕","بسته‌های مختلف اسکین."]
+];
+
+const $ = id => document.getElementById(id);
+let activeCategory = "همه";
+let selectedGame = null;
+let selectedScore = 0;
+
+function getRatings(){
+ try{return JSON.parse(localStorage.getItem("ahoura_world_ratings")||"{}")}
+ catch(e){return {}}
+}
+
+function getAverage(name){
+ const list=getRatings()[name]||[];
+ if(!list.length)return "هنوز امتیازی ندارد";
+ const sum=list.reduce((a,b)=>a+b,0);
+ return (sum/list.length).toFixed(1)+" از ۱۰";
+}
+
+function makeCard(icon,title,description){
+ const card=document.createElement("article");
+ card.className="card";
+
+ const cover=document.createElement("div");
+ cover.className="cover";
+ cover.textContent=icon;
+
+ const content=document.createElement("div");
+ content.className="content";
+
+ const heading=document.createElement("h3");
+ heading.textContent=title;
+
+ const paragraph=document.createElement("p");
+ paragraph.textContent=description;
+
+ content.append(heading,paragraph);
+ card.append(cover,content);
+
+ return {card,content};
+}
+
+function makeLink(url,text){
+ const link=document.createElement("a");
+ link.className="btn";
+ link.href=url;
+ link.target="_self";
+ link.rel="noopener noreferrer";
+ link.textContent=text;
+ link.style.cursor="pointer";
+ return link;
+}
+
+function renderGames(){
+ const grid=$("gamesGrid");
+ const query=$("search").value.trim().toLowerCase();
+ grid.innerHTML="";
+
+ const filtered=games.filter(game=>{
+  const categoryMatch=activeCategory==="همه"||game.cat===activeCategory;
+  const searchMatch=game.name.toLowerCase().includes(query);
+  return categoryMatch&&searchMatch;
+ });
+
+ if(filtered.length===0){
+  grid.innerHTML='<div class="notice">بازی‌ای پیدا نشد.</div>';
+  return;
+ }
+
+ filtered.forEach(game=>{
+  const {card,content}=makeCard(game.icon,game.name,game.desc);
+
+  const rating=document.createElement("div");
+  rating.className="rating";
+  rating.textContent="⭐ امتیاز: "+getAverage(game.name);
+
+  const actions=document.createElement("div");
+  actions.className="actions";
+
+  const rate=document.createElement("button");
+  rate.type="button";
+  rate.textContent="امتیاز دادن";
+  rate.addEventListener("click",()=>openRating(game));
+
+  const official=makeLink(game.url,"سایت رسمی");
+
+  actions.append(rate,official);
+  content.append(rating,actions);
+  grid.append(card);
+ });
+}
+
+function renderNews(){
+ const grid=$("newsGrid");
+
+ news.forEach(item=>{
+  const {card,content}=makeCard(item.icon,item.name,item.desc);
+  const link=makeLink(item.url,"مشاهده اخبار");
+  content.append(link);
+  grid.append(card);
+ });
+}
+
+function renderCollection(items,gridId,buttonText){
+ const grid=$(gridId);
+
+ items.forEach(item=>{
+  const {card,content}=makeCard(item[1],item[0],item[2]);
+  const link=makeLink(MARKETPLACE,buttonText);
+  content.append(link);
+  grid.append(card);
+ });
+}
+
+function openRating(game){
+ selectedGame=game;
+ selectedScore=0;
+
+ $("modalTitle").textContent="امتیاز به "+game.name;
+ $("scoreText").textContent="امتیازی انتخاب نشده است.";
+ $("stars").innerHTML="";
+
+ for(let i=1;i<=10;i++){
+  const button=document.createElement("button");
+  button.type="button";
+  button.textContent="★";
+  button.addEventListener("click",()=>{
+   selectedScore=i;
+   $("scoreText").textContent="امتیاز انتخاب‌شده: "+i+" از ۱۰";
+   updateStars();
+  });
+  $("stars").append(button);
+ }
+
+ updateStars();
+ $("modal").style.display="flex";
+}
+
+function updateStars(){
+ [...$("stars").children].forEach((button,index)=>{
+  button.classList.toggle("selected",index<selectedScore);
+ });
+}
+
+$("saveScore").addEventListener("click",()=>{
+ if(!selectedGame||selectedScore===0){
+  $("scoreText").textContent="ابتدا یک امتیاز انتخاب کن.";
+  return;
+ }
+
+ const ratings=getRatings();
+ if(!ratings[selectedGame.name])ratings[selectedGame.name]=[];
+ ratings[selectedGame.name].push(selectedScore);
+
+ try{
+  localStorage.setItem("ahoura_world_ratings",JSON.stringify(ratings));
+  $("modal").style.display="none";
+  renderGames();
+ }catch(error){
+  $("scoreText").textContent="ذخیره امتیاز در این مرورگر ممکن نیست.";
+ }
+});
+
+$("closeModal").addEventListener("click",()=>{
+ $("modal").style.display="none";
+});
+
+$("modal").addEventListener("click",event=>{
+ if(event.target===$("modal")){
+  $("modal").style.display="none";
+ }
+});
+
+$("search").addEventListener("input",renderGames);
+
+$("filters").addEventListener("click",event=>{
+ const button=event.target.closest("button[data-cat]");
+ if(!button)return;
+
+ activeCategory=button.dataset.cat;
+
+ document.querySelectorAll("#filters button").forEach(item=>{
+  item.classList.toggle("active",item===button);
+ });
+
+ renderGames();
+});
+
+renderGames();
+renderNews();
+renderCollection(maps,"mapsGrid","مشاهده مپ‌ها");
+renderCollection(skins,"skinsGrid","مشاهده اسکین‌ها");
+
+</script>
+</body>
+  </html>
